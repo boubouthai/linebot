@@ -3,7 +3,8 @@
 const line = require('@line/bot-sdk');
 const express = require('express');
 const config = require('./config/index.js')
-
+const JSONParseError = require('@line/bot-sdk').JSONParseError
+const SignatureValidationFailed = require('@line/bot-sdk').SignatureValidationFailed
 // create LINE SDK config from env variables
 
 
@@ -14,6 +15,9 @@ const client = new line.Client(config.LINE);
 // about Express itself: https://expressjs.com/
 const app = express();
 
+app.post('/hello', (req, res) => {
+  res.json({})
+})
 // register a webhook handler with middleware
 // about the middleware, please refer to doc
 app.post('/callback', line.middleware(config.LINE), (req, res) => {
@@ -26,6 +30,16 @@ app.post('/callback', line.middleware(config.LINE), (req, res) => {
     });
 });
 
+app.use((err, req, res, next) => {
+  if (err instanceof SignatureValidationFailed) {
+    res.status(401).send(err.signature)
+    return
+  } else if (err instanceof JSONParseError) {
+    res.status(400).send(err.raw)
+    return
+  }
+  next(err) // will throw default 500
+})
 // event handler
 function handleEvent(event) {
   if (event.type !== 'message' || event.message.type !== 'text') {
