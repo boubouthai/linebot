@@ -10,7 +10,7 @@ const SignatureValidationFailed = require('@line/bot-sdk').SignatureValidationFa
 
 // create LINE SDK client
 const configLine  = {
-    channelAccessToken: '1563576818',
+    channelAccessToken: '1VLJBEIdrxS7KvCCvi8bUx4ErCP0+IWiC8FcrUHsW+KfPE+Q7l+oup6VC6G3zbEcVvginI0reBQIScicFOkQbcT1uNqW3oWP7d2U2qU14DxRnJeJKki0H9y4eE+6NxENMk8jmhYsUcitgmAq9kzCJwdB04t89/1O/w1cDnyilFU=',
     channelSecret: '3fb4bf26118374e7f241d739189d2e07'
 }
 
