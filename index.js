@@ -9,8 +9,12 @@ const SignatureValidationFailed = require('@line/bot-sdk').SignatureValidationFa
 
 
 // create LINE SDK client
-const client = new line.Client(config.LINE);
+const configLine  = {
+    channelAccessToken: '1563576818',
+    channelSecret: '3fb4bf26118374e7f241d739189d2e07'
+}
 
+const client = new line.Client(configLine);
 // create Express app
 // about Express itself: https://expressjs.com/
 const app = express();
@@ -20,7 +24,7 @@ app.post('/hello', (req, res) => {
 })
 // register a webhook handler with middleware
 // about the middleware, please refer to doc
-app.post('/callback', line.middleware(config.LINE), (req, res) => {
+app.post('/callback', line.middleware(configLine), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
     .then((result) => res.json(result))
